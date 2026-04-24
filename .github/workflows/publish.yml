@@ -32,6 +32,6 @@ jobs:
           # Path to the package (since it's in a subdirectory)
           package-entrypoint: "./packages/nxp-pca9685"
           # Use version from release tag or manual input
-          package-version: "from-tag"
+          package-version: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version || 'from-tag' }}
           # Skip if version already exists
           skip-duplicate-versions: "true"
