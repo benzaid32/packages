@@ -10,10 +10,6 @@ on:
         required: true
         default: '0.1.0'
 
-defaults:
-  run:
-    working-directory: ./packages/nxp-pca9685
-
 jobs:
   publish:
     if: github.event_name == 'workflow_dispatch' || (github.event.release.draft != true && github.event.release.prerelease != true)
@@ -32,5 +28,6 @@ jobs:
       - name: Publish to packages.atopile.io
         uses: atopile/publish-package@main
         with:
+          working-directory: "./packages/nxp-pca9685"
           package-version: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version || 'from-tag' }}
           skip-duplicate-versions: "true"
