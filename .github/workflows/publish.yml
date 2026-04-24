@@ -10,9 +10,12 @@ on:
         required: true
         default: '0.1.0'
 
+defaults:
+  run:
+    working-directory: ./packages/nxp-pca9685
+
 jobs:
   publish:
-    # Only run on non-draft, non-prerelease releases
     if: github.event_name == 'workflow_dispatch' || (github.event.release.draft != true && github.event.release.prerelease != true)
     
     runs-on: ubuntu-latest
@@ -26,17 +29,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       
-      - name: Setup atopile
-        uses: atopile/setup-atopile@v1
-        with:
-          ato-config: "./packages/nxp-pca9685/ato.yaml"
-      
       - name: Publish to packages.atopile.io
         uses: atopile/publish-package@main
         with:
-          # Path to the package (since it's in a subdirectory)
-          package-entrypoint: "./packages/nxp-pca9685"
-          # Use version from release tag or manual input
           package-version: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version || 'from-tag' }}
-          # Skip if version already exists
           skip-duplicate-versions: "true"
