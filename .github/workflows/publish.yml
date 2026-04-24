@@ -26,6 +26,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       
+      - name: Setup atopile
+        uses: atopile/setup-atopile@v1
+        with:
+          ato-config: "./packages/nxp-pca9685/ato.yaml"
+      
       - name: Publish to packages.atopile.io
         uses: atopile/publish-package@main
         with:
